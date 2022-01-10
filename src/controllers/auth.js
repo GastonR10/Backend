@@ -68,6 +68,11 @@ const login = async (req, res, next) => {
       TOKEN_SECRET
     );
 
+    res.status(200).json({
+      error: null,
+      data: "Login exitoso",
+      token,
+    });
   
   } catch (error) {
     return next(error);

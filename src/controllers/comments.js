@@ -1,9 +1,10 @@
+const db = require('../../db/index');
 
-
-const getComments = async (req, res) => {
+const getComments = async (req, res, next) => {
     try {
+        const comments = await db.query("select * from comments");
         res.send({
-            comments: comments,
+            comments: comments.rows,
           });
     } catch (error) {
         return next(error);
@@ -12,10 +13,15 @@ const getComments = async (req, res) => {
 
 const Suggestions = async (req, res, next) => {
     try {
-        const newComment = { text: req.body.text };
-        comments.push(newComment);
+        const newComment = req.body;
+        
+        const comments = await db.query(
+            "Insert into comments(comment) values ($1)",
+            [newComment.comment]
+          );
+        
         res.send({
-            comments
+            comment: comments.rows
         });
     } catch (error) {
       return next(error);
@@ -29,4 +35,3 @@ module.exports = {
 };
 
 
-const comments = [];

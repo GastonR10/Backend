@@ -1,11 +1,11 @@
-const express = require('express');
 
-const router = express.Router();
+const db = require('../../db/index');
 
-
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
     try {
-        res.send({ succes: true, products});
+        const prods = await db.query('select * from products order by "id"');
+
+        res.send({ success: true, products: prods.rows});
     } catch (error) {
         return next(error);
     }
@@ -16,9 +16,14 @@ const newProduct = async (req, res, next) => {
     try {
         const newProd = req.body;
 
-        if(newProd.id && newProd.name && newProd.category) {
-            products.push(newProd);
-            res.send({ success: true, products});
+        if(newProd.name && newProd.category) {
+            
+            const prods = await db.query(
+                "Insert into products(name, category) values ($1, $2)",
+                [newProd.name, newProd.category]
+              );
+
+            res.send({ success: true, products: prods.rows});
         } else {
             res.send({ success: false, error: "falta algun campo"});
         };
@@ -55,25 +60,3 @@ module.exports = {
 };
 
 
-const products = [
-    {
-        id: 1,
-        name: "Cucha",
-        category: "perros"
-    },
-    {
-        id: 2,
-        name: "Jaula de loro",
-        category: "exoticos"
-    },
-    {
-        id: 3,
-        name: "Huesos",
-        category: "perros"
-    },
-    {
-        id: 4,
-        name: "Pelota de hilo",
-        category: "gatos"
-    }
-];
