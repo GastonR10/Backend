@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { TOKEN_SECRET, verifyToken } = require("../middleware/jwt-validate");
+const { TOKEN_SECRET } = require("../middleware/jwt-validate");
 
 
 const registro = async (req, res, next) => {
