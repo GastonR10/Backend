@@ -14,7 +14,7 @@ const authRouter = require("./src/routes/auth");
 const productsRouter = require("./src/routes/products");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(express.json());
 app.use(
