@@ -16,7 +16,7 @@ const Suggestions = async (req, res, next) => {
         const newComment = req.body;
         
         const comments = await db.query(
-            "Insert into comments(comment) values ($1)",
+            "Insert into comments(suggestion) values ($1)",
             [newComment.comment]
           );
         
